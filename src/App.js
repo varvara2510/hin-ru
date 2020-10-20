@@ -8,6 +8,7 @@ class App extends React.Component {
     this.database = new Database();
     this.state = {
       addingWord: false,
+      foundWords: [],
       word: "",
       gender: "m",
       spellings: "",
@@ -31,6 +32,17 @@ class App extends React.Component {
       meanings: this.state.meanings,
       status: "draft"
     })
+  }
+
+  searchWord = event => {
+    this.database.searchWords(event.target.value).get().then(
+      snapshot => {
+        console.log("cool")
+        this.setState({
+          foundWords: snapshot.docs,
+        })
+      }
+    )
   }
 
   updateInput = e => {
@@ -76,15 +88,52 @@ class App extends React.Component {
               <span className="input-group-text" id="language-identifier">HIN/RU</span>
             </div>
             <input type="text" className="form-control" placeholder="Найти слово..."
-              aria-label="Слово" aria-describedby="language-identifier" />
+              aria-label="Слово" aria-describedby="language-identifier" onChange={this.searchWord} />
           </div>
         </div>
         <div className="col-12">
-          <ul className="list-group w-100">
-            <li className="list-group-item list-group-item-action">Word 1</li>
-            <li className="list-group-item list-group-item-action">Word 2</li>
-            <li className="list-group-item list-group-item-action">Word 3</li>
-          </ul>
+          <div className="accordion" id="foundWords">
+            {
+              this.state.foundWords.map(
+                (word, index) => (
+                  <div className="card" key={ "search-result-" + index }>
+                    <div className="card-header" id={ "word-" + index }>
+                      <h2 className="mb-0">
+                        <button className="btn btn-link btn-block text-left" type="button"
+                          data-toggle="collapse" data-target={ "#collapse-word-" + index } aria-expanded="true"
+                          aria-controls={ "collapse-word-" + index }>
+                          { word.get("word") }
+                        </button>
+                      </h2>
+                    </div>
+                    <div id={ "collapse-word-" + index } className="collapse" aria-labelledby={ "word-" + index }
+                      data-parent="#foundWords">
+                      <div className="card-body">
+                        <p>
+                          Часть речи: { word.get("part_of_speech") }
+                        </p>
+                        <p>
+                          Род: { word.get("gender") }
+                        </p>
+                        <p>
+                          Альтернативные написания: { word.get("spellings") }
+                        </p>
+                        <p>
+                          Значения: { word.get("meanings").map(
+                            meaning => (
+                              <p>
+                                { meaning.meaning } ({ meaning.examples })
+                              </p>
+                            )
+                          ) }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              )
+            }
+          </div>
         </div>
       </div>
     );
