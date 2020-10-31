@@ -1,0 +1,41 @@
+body {
+	background-color: #fdf5e6;
+}
+
+.btn btn-primary {
+	cursor: pointer;
+	border: none;
+	background: #990000;
+	color: #fff;
+	font-family: monaco;
+	font-size: 16px;
+	letter-spacing: 3px;
+	border-radius: 25px;
+	outline: none;
+	transition: 0.2s;
+}
+
+.btn yt-icon-button:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 7px 0 #993300;
+	color: #660000;
+}
+
+.btn btn-outline-primary {
+	transform: translateY(-2px);
+	box-shadow: 0 3px 0 #CC3333;
+	transition: 0.2s;
+} 
+
+.btn yt-icon-button:focus {
+	vertical-align: middle;
+	color: #01a715;
+}
+
+input {
+	color: red;
+	}
+
+input::placeholder {
+	color: red;
+}
