@@ -168,11 +168,11 @@ class App extends React.Component {
       ],
       adjective: [
         {
-          name: "gender",
-          readableName: "Род",
+          name: "mutability",
+          readableName: "Изменяемость",
           values: [
-            { name: "m", readableName: "мужской" },
-            { name: "f", readableName: "женский" },
+            { name: "mutable", readableName: "изменяемое" },
+            { name: "immutable", readableName: "неизменяемое" },
           ]
         }
       ],
