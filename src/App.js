@@ -85,7 +85,7 @@ class App extends React.Component {
         <div className="col-12">
           <div className="input-group mb-3">
             <div className="input-group-prepend">
-              <span className="input-group-text" id="language-identifier">HIN/RU</span>
+              <span className="input-group-text" id="language-identifier">Hin/Ru</span>
             </div>
             <input type="text" className="form-control" placeholder="Найти слово..."
               aria-label="Слово" aria-describedby="language-identifier" onChange={this.searchWord} />
@@ -142,31 +142,48 @@ class App extends React.Component {
       <div className="row">
         <div className="col-12">
           <form onSubmit={this.addWord}>
-            <div className="form-group">
+            <div className="form-group"><b>
               <label htmlFor="word">Слово</label>
               <input type="text" className="form-control" id="word" placeholder="हिंदी"
-                required={ true } onChange={this.updateInput} />
+                required={ true } onChange={this.updateInput}/></b>
             </div>
-            <div className="form-group">
+            <div className="form-group"><b>
               <label htmlFor="spellings">Альтернативные написания</label>
-              <input type="text" className="form-control" id="spellings" placeholder="हिंदी, हिन्दी" onChange={this.updateInput} />
+              <input type="text" className="form-control" id="spellings" placeholder="हिंदी, हिन्दी" onChange={this.updateInput} /></b>
             </div>
-            <div className="form-group">
-              <label htmlFor="gender">Род</label>
-              <select className="form-control" id="gender" onChange={this.updateInput}>
-                <option value="f">мужской</option>
-                <option value="m">женский</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="part_of_speech">Часть речи</label>
+            <div className="form-group"><b>
+              <label htmlFor="part_of_speech">Часть речи</label></b>
               <select className="form-control" id="part_of_speech" onChange={this.updateInput}>
                 <option value="noun">существительное</option>
+                <option value="verb">глагол</option>
+                <option value="compound verb"> составной глагол</option>
                 <option value="adjective">прилагательное</option>
+                <option value="adverb">наречие</option>
+                <option value="pronoun">местоимение</option>
+                <option value="conjunction">союз</option>
+                <option value="interjection">междометие</option>
+                <option value="postposition">послелог</option>
+                <option value="particle">частица</option>
               </select>
             </div>
-            <div className="form-group">
-              <label>Значения</label>
+            <div className="form-group"><b>
+              <label htmlFor="properties">Свойства</label></b>
+              <form action="handler.php">
+              <select size= "3" multiple="multiple" className="form-control" id="gender" onChange={this.updateInput}>
+    <optgroup label="Род"></optgroup>
+                <option value="f">мужской</option>
+                <option value="m">женский</option>
+    <optgroup label="Переходноcть глаголов"></optgroup>
+                <option value="transitive">переходный</option>
+                <option value="intransitive">непереходный</option>
+    <optgroup label="Изменяемость прилагательных"></optgroup>
+                <option value="modifiable">изменяемое</option>
+                <option value="unmodifiable">неизменяемое</option>
+              </select>
+              </form>
+            </div>
+            <div className="form-group"><b>
+              <label>Значения</label></b>
               {
                 this.state.meanings.map(
                   (value, index) => {
@@ -177,7 +194,7 @@ class App extends React.Component {
                           value={ value.meaning } onChange={event => this.updateMeaning(index, event.target.value)}>
                         </textarea>
                         <textarea className="form-control" id={ "meanings_example" + index }
-                          placeholder="हम हिंदी बोलते हैं। Мы говорим на хинди." rows="3" required={ true }
+                          placeholder="हम हिंदी बोलते हैं। Мы говорим на хинди." rows="3"
                           value={ value.examples } onChange={event => this.updateMeaningExamples(index, event.target.value)}>
                         </textarea>
                         <div className="input-group-append">
@@ -210,12 +227,8 @@ class App extends React.Component {
       <div className="container">
         <div className="row">
           <div className="col-12 my-3 text-center">
-            <button className="btn btn-primary" onClick={
-              () => this.setState({
-                addingWord: !this.state.addingWord
-              })
-            }>
-              { this.state.addingWord ? "Искать слова" : "Добавить слово"}
+            <button className="btn btn-primary" onClick={() => this.setState({addingWord: !this.state.addingWord})}>
+              { this.state.addingWord ? "Вернуться на главную страницу" : "Добавить слово"}
             </button>
           </div>
         </div>
