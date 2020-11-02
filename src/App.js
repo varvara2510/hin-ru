@@ -6,11 +6,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.database = new Database();
-    this.state = {
+    this.state = this.getCleanState();
+  }
+
+  getCleanState = () => (
+    {
       addingWord: false,
+      upload_status: "not_started",
       foundWords: [],
       word: "",
-      gender: "m",
       spellings: "",
       part_of_speech: "noun",
       meanings: [
@@ -19,25 +23,47 @@ class App extends React.Component {
           examples: ""
         }
       ]
-    };
-  }
+    }
+  )
+
+  resetState = () => this.setState(
+    {
+      ...this.getCleanState(),
+      addingWord: this.state.addingWord
+    }
+  );
+
+  setUploadingWord = () => this.setState({upload_status: "pending"});
+  setSomethingWentWrong = () => this.setState({upload_status: "error"});
 
   addWord = event => {
     event.preventDefault();
-    this.database.saveWord({
+    this.setUploadingWord();
+    console.log({
       word: this.state.word,
-      gender: this.state.gender,
       spellings: this.state.spellings.split(','),
       part_of_speech: this.state.part_of_speech,
       meanings: this.state.meanings,
+      properties: this.state.properties,
       status: "draft"
-    })
+    });
+    this.database.saveWord({
+      word: this.state.word,
+      spellings: this.state.spellings.split(','),
+      part_of_speech: this.state.part_of_speech,
+      meanings: this.state.meanings,
+      properties: this.state.properties ? this.state.properties : {},
+      status: "draft"
+    }).then(
+      this.resetState
+    ).catch(
+      this.setSomethingWentWrong
+    )
   }
 
   searchWord = event => {
     this.database.searchWords(event.target.value).get().then(
       snapshot => {
-        console.log("cool")
         this.setState({
           foundWords: snapshot.docs,
         })
@@ -79,9 +105,110 @@ class App extends React.Component {
     })
   }
 
+  updateProperty = (propName, valueName, value) => {
+    this.setState({
+      properties: {
+        ...(
+          this.state.properties
+            ? this.state.properties
+            : {}
+        ),
+        [propName]: {
+          ...(
+            (this.state.properties && propName in this.state.properties)
+            ? this.state.properties[propName]
+            : {}
+          ),
+          [valueName]: value
+        }
+      }
+    })
+  }
+
+  getPropertiesForPartOfSpeech = partOfSpeech => {
+    let propertiesByPartOfSpeech = {
+      noun: [
+        {
+          name: "gender",
+          readableName: "Род",
+          values: [
+            {name: "m", readableName: "мужской"},
+            {name: "f", readableName: "женский"},
+          ]
+        }
+      ],
+      verb: [
+        {
+          name: "transitivity",
+          readableName: "Переходность",
+          values: [
+            {name: "transitive", readableName: "переходный"},
+            {name: "non_transitive", readableName: "непереходный"},
+          ]
+        }
+      ],
+      compound_verb: [
+        {
+          name: "transitivity",
+          readableName: "Переходность",
+          values: [
+            { name: "transitive", readableName: "переходный" },
+            { name: "non_transitive", readableName: "непереходный" },
+          ]
+        },
+        {
+          name: "compound_of",
+          readableName: "Состоит из",
+          values: [
+            { name: "noun_and_verb", readableName: "существительного и глагола" },
+            { name: "adjective_and_verb", readableName: "прилагательного и глагола" },
+            { name: "participle_and_verb", readableName: "причастия и глагола" },
+          ]
+        }
+      ],
+      adjective: [
+        {
+          name: "gender",
+          readableName: "Род",
+          values: [
+            { name: "m", readableName: "мужской" },
+            { name: "f", readableName: "женский" },
+          ]
+        }
+      ],
+      adverb: [],
+      pronoun: [
+        {
+          name: "order",
+          readableName: "Разряд",
+          values: [
+            { name: "personal", readableName: "личное" },
+            { name: "demonstrative", readableName: "указательное" },
+            { name: "relative", readableName: "относительное" },
+            { name: "indefinite", readableName: "неопределенное" },
+            { name: "interrogative", readableName: "вопросительное" },
+          ]
+        },
+        {
+          name: "gender",
+          readableName: "Род",
+          values: [
+            { name: "m", readableName: "мужской" },
+            { name: "f", readableName: "женский" },
+          ]
+        }
+      ],
+      conjunction: [],
+      interjection: [],
+      postposition: [],
+      particle: [],
+    }
+    return propertiesByPartOfSpeech[partOfSpeech];
+  }
+
   render() {
     let wordSearchForm = (
-      <div className="row">
+      <div className="row my-4">
         <div className="col-12">
           <div className="input-group mb-3">
             <div className="input-group-prepend">
@@ -139,24 +266,24 @@ class App extends React.Component {
     );
 
     let wordAddForm = (
-      <div className="row">
+      <div className="row my-4">
         <div className="col-12">
           <form onSubmit={this.addWord}>
-            <div className="form-group"><b>
+            <div className="form-group">
               <label htmlFor="word">Слово</label>
               <input type="text" className="form-control" id="word" placeholder="हिंदी"
-                required={ true } onChange={this.updateInput}/></b>
+                required={ true } onChange={this.updateInput}/>
             </div>
-            <div className="form-group"><b>
+            <div className="form-group">
               <label htmlFor="spellings">Альтернативные написания</label>
-              <input type="text" className="form-control" id="spellings" placeholder="हिंदी, हिन्दी" onChange={this.updateInput} /></b>
+              <input type="text" className="form-control" id="spellings" placeholder="हिंदी, हिन्दी" onChange={this.updateInput} />
             </div>
-            <div className="form-group"><b>
-              <label htmlFor="part_of_speech">Часть речи</label></b>
+            <div className="form-group">
+              <label htmlFor="part_of_speech">Часть речи</label>
               <select className="form-control" id="part_of_speech" onChange={this.updateInput}>
                 <option value="noun">существительное</option>
                 <option value="verb">глагол</option>
-                <option value="compound verb"> составной глагол</option>
+                <option value="compound_verb">составной глагол</option>
                 <option value="adjective">прилагательное</option>
                 <option value="adverb">наречие</option>
                 <option value="pronoun">местоимение</option>
@@ -166,24 +293,45 @@ class App extends React.Component {
                 <option value="particle">частица</option>
               </select>
             </div>
-            <div className="form-group"><b>
-              <label htmlFor="properties">Свойства</label></b>
-              <form action="handler.php">
-              <select size= "3" multiple="multiple" className="form-control" id="gender" onChange={this.updateInput}>
-    <optgroup label="Род"></optgroup>
-                <option value="f">мужской</option>
-                <option value="m">женский</option>
-    <optgroup label="Переходноcть глаголов"></optgroup>
-                <option value="transitive">переходный</option>
-                <option value="intransitive">непереходный</option>
-    <optgroup label="Изменяемость прилагательных"></optgroup>
-                <option value="modifiable">изменяемое</option>
-                <option value="unmodifiable">неизменяемое</option>
-              </select>
-              </form>
-            </div>
-            <div className="form-group"><b>
-              <label>Значения</label></b>
+            <hr />
+            <label htmlFor="properties">Свойства</label>
+            {
+              this.getPropertiesForPartOfSpeech(this.state.part_of_speech).map(
+                prop => (
+                  <div className="form-group" key={"prop-" + prop.name}>
+                    <label htmlFor={ prop.name }>
+                      { prop.readableName }
+                    </label>
+                    <br />
+                    <div className="form-check form-check-inline">
+                      {
+                        prop.values.map(
+                          value => {
+                            let valueId = "prop-" + prop.name + "-value-" + value.name;
+                            return (
+                              <React.Fragment key={ valueId }>
+                                <input
+                                  className="form-check-input"
+                                  type="checkbox"
+                                  id={ valueId }
+                                  value={ value.name }
+                                  onChange={
+                                    event => this.updateProperty(prop.name, value.name, event.target.checked)
+                                  }/>
+                                <label className="form-check-label pr-2" htmlFor={ valueId }>{ value.readableName }</label>
+                              </React.Fragment>
+                            )
+                          }
+                        )
+                      }
+                    </div>
+                  </div>
+                )
+              )
+            }
+            <hr />
+            <div className="form-group">
+              <label>Значения</label>
               {
                 this.state.meanings.map(
                   (value, index) => {
@@ -214,8 +362,19 @@ class App extends React.Component {
               }
             </div>
             <div className="col-12 my-3 text-center">
-              <button className="btn btn-outline-primary" type="submit">
-                Отправить
+              <button className={
+                "btn btn-outline-primary"
+                + (
+                    (this.state.upload_status !== "not_started")
+                      ? " disabled"
+                      : ""
+                  )
+              } type="submit">
+                {
+                  this.state.upload_status === "error"
+                    ? "Что-то пошло не так. Нажмите F12, сделайте скриншот и покажите его Диме."
+                    : "Отправить"
+                }
               </button>
             </div>
           </form>
@@ -224,16 +383,47 @@ class App extends React.Component {
     );
 
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-12 my-3 text-center">
-            <button className="btn btn-primary" onClick={() => this.setState({addingWord: !this.state.addingWord})}>
-              { this.state.addingWord ? "Вернуться на главную страницу" : "Добавить слово"}
-            </button>
-          </div>
+      <React.Fragment>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={
+                () => this.setState(
+                  {
+                    addingWord: false
+                  }
+                )
+              }>
+                Главная
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#" onClick={
+                () => this.setState(
+                  {
+                    addingWord: true
+                  }
+                )
+              }>
+                Предложить свое слово
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link disabled" href="#">
+                Контакты
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link disabled" href="#">
+                О нас
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div className="container">
+          { this.state.addingWord ? wordAddForm : wordSearchForm }
         </div>
-        { this.state.addingWord ? wordAddForm : wordSearchForm }
-      </div>
+      </React.Fragment>
     );
   } 
 }

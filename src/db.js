@@ -23,7 +23,7 @@ class Database {
 
     saveWord(word) {
         const db = firebase.firestore();
-        db.collection("articles").add(word);  
+        return db.collection("articles").add(word);  
     }
 
     searchWords(lookup) {
