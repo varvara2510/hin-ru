@@ -10,6 +10,18 @@ class App extends React.Component {
     this.state = this.getCleanState();
   }
 
+  componentDidMount = () => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.setState({ user: user });
+        this.database.fetchUserAdmin(
+          user,
+          value => this.setState({ userIsAdmin: value })
+        );
+      }
+    });
+  }
+
   getCleanState = () => (
     {
       addingWord: false,
@@ -24,7 +36,8 @@ class App extends React.Component {
           examples: ""
         }
       ],
-      user: undefined
+      user: undefined,
+      userIsAdmin: false
     }
   )
 
@@ -37,9 +50,24 @@ class App extends React.Component {
 
   signIn = () => {
     let authProvider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(authProvider).then(
-      result => this.setState({user: result.user})
-    );
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(
+      () => {
+        firebase.auth().signInWithPopup(authProvider).then(
+          result => {
+            this.setState({user: result.user});
+            this.database.fetchUserAdmin(
+              result.user,
+              value => this.setState({userIsAdmin: value})
+            )
+          }
+        );
+      }
+    )
+  }
+
+  signOut = () => {
+    firebase.auth().signOut();
+    this.setState({ user: undefined, userIsAdmin: false });
   }
 
   setUploadingWord = () => this.setState({upload_status: "pending"});
@@ -48,14 +76,6 @@ class App extends React.Component {
   addWord = event => {
     event.preventDefault();
     this.setUploadingWord();
-    console.log({
-      word: this.state.word,
-      spellings: this.state.spellings.split(','),
-      part_of_speech: this.state.part_of_speech,
-      meanings: this.state.meanings,
-      properties: this.state.properties,
-      status: "draft"
-    });
     this.database.saveWord({
       word: this.state.word,
       spellings: this.state.spellings.split(','),
@@ -430,7 +450,8 @@ class App extends React.Component {
           </ul>
           {
             this.state.user ? (
-              <button className="btn btn-primary" onClick={ evt => this.setState({user: undefined}) }>
+              <button className="btn btn-primary"
+                  onClick={ this.signOut }>
                 Выйти ({ this.state.user.displayName })
               </button>
             ) : (
