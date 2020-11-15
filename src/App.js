@@ -37,6 +37,12 @@ class App extends React.Component {
           examples: ""
         }
       ],
+      control_rus: "",
+      control_hin: "",
+      stable_phrases_rus: "",
+      stable_phrases_hin: "",
+      examples_rus: "",
+      examples_hin: "",
       user: undefined,
       userIsAdmin: false
     }
@@ -85,7 +91,20 @@ class App extends React.Component {
       part_of_speech: this.state.part_of_speech,
       meanings: this.state.meanings,
       properties: this.state.properties ? this.state.properties : {},
-      status: "draft"
+      control: {
+        rus: this.state.control_rus,
+        hin: this.state.control_hin
+      },
+      stable_phrases: {
+        rus: this.state.stable_phrases_rus,
+        hin: this.state.stable_phrases_hin
+      },
+      examples: {
+        rus: this.state.examples_rus,
+        hin: this.state.examples_hin
+      },
+      status: "draft",
+      author: this.state.user ? this.state.user.email : undefined
     }).then(
       this.resetState
     ).catch(
@@ -367,6 +386,13 @@ class App extends React.Component {
                 } />
             </div>
             <div className="form-group">
+              <label htmlFor="transliteration">Транслитерация</label>
+              <DevanagariTextInput id="transliteration" placeholder="hindi"
+                required={true} setValue={
+                  value => this.updateInput({ target: { id: "transliteration", value: value } })
+                } />
+            </div>
+            <div className="form-group">
               <label htmlFor="spellings">Альтернативные написания</label>
               <DevanagariTextInput id="spellings" placeholder="हिंदी, हिन्दी"
                 setValue={
@@ -450,6 +476,42 @@ class App extends React.Component {
                   }
                 )
               }
+            </div>
+            <div className="form-group">
+              <label htmlFor="control_rus">Управление</label>
+              <div className="input-group">
+                <textarea className="form-control" id="control_rus"
+                  rows="3" placeholder="на русском" required={true}
+                  onChange={ this.updateInput }>
+                </textarea>
+                <textarea className="form-control" id="control_hin"
+                  rows="3" placeholder="на хинди" onChange={ this.updateInput }>
+                </textarea>
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="stable_phrases_rus">Устойчивые словосочетания</label>
+              <div className="input-group">
+                <textarea className="form-control" id="stable_phrases_rus"
+                  rows="3" placeholder="на русском" required={true}
+                  onChange={this.updateInput}>
+                </textarea>
+                <textarea className="form-control" id="stable_phrases_hin"
+                  rows="3" placeholder="на хинди" onChange={this.updateInput}>
+                </textarea>
+              </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="examples_rus">Примеры</label>
+              <div className="input-group">
+                <textarea className="form-control" id="examples_rus"
+                  rows="3" placeholder="на русском" required={true}
+                  onChange={this.updateInput}>
+                </textarea>
+                <textarea className="form-control" id="examples_hin"
+                  rows="3" placeholder="на хинди" onChange={this.updateInput}>
+                </textarea>
+              </div>
             </div>
             <div className="col-12 my-3 text-center">
               <button className={
