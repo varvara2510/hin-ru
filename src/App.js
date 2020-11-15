@@ -156,6 +156,21 @@ class App extends React.Component {
     })
   }
 
+  getPartsOfSpeech = () => {
+    return {
+      noun: "существительное",
+      verb: "глагол",
+      compound_verb: "составной глагол",
+      adjective: "прилагательное",
+      adverb: "наречие",
+      pronoun: "местоимение",
+      conjunction: "союз",
+      interjection: "междометие",
+      postposition: "послелог",
+      particle: "частица"
+    }
+  }
+
   getPropertiesForPartOfSpeech = partOfSpeech => {
     let propertiesByPartOfSpeech = {
       noun: [
@@ -250,6 +265,63 @@ class App extends React.Component {
     }
   }
 
+  renderWord = word => {
+    return (
+      <table className="table">
+        <tbody>
+          <tr>
+            <th>Часть речи</th>
+            <td>
+              { this.getPartsOfSpeech()[word.get("part_of_speech")] }
+            </td>
+          </tr>
+          {
+            this.getPropertiesForPartOfSpeech(word.get("part_of_speech")).map(
+              property => (
+                <tr key={ word.get("word") + '-' + property.name }>
+                  <th>{ property.readableName }</th>
+                  <td>
+                    {
+                      (word.get("properties") && property.name in word.get("properties")) ?
+                        Object.entries(
+                          word.get("properties")[property.name]
+                        ).filter(([_, value]) => value).map(
+                          ([key, _]) => property.values.filter(
+                              value => (value.name === key)
+                            )[0].readableName
+                        ) : "-"
+                    }
+                  </td>
+                </tr>
+              )
+            )
+          }
+          <tr>
+            <th>Альтернативные написания</th>
+            <td>{word.get("spellings")}</td>
+          </tr>
+          <tr>
+            <th>Значения</th>
+            <td>
+              <table className="table">
+                {
+                  word.get("meanings").map(
+                    meaning => (
+                      <tr>
+                        <td>{meaning.meaning}</td>
+                        <td>{meaning.examples}</td>
+                      </tr>
+                    )
+                  )
+                }
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    )
+  }
+
   renderMainPage = () => {
     return (
       <div className="row my-4">
@@ -263,44 +335,15 @@ class App extends React.Component {
           </div>
         </div>
         <div className="col-12">
-          <div className="accordion" id="foundWords">
+          <div className="list-group">
             {
               this.state.foundWords.map(
-                (word, index) => (
-                  <div className="card" key={"search-result-" + index}>
-                    <div className="card-header" id={"word-" + index}>
-                      <h2 className="mb-0">
-                        <button className="btn btn-link btn-block text-left" type="button"
-                          data-toggle="collapse" data-target={"#collapse-word-" + index} aria-expanded="true"
-                          aria-controls={"collapse-word-" + index}>
-                          {word.get("word")}
-                        </button>
-                      </h2>
-                    </div>
-                    <div id={"collapse-word-" + index} className="collapse" aria-labelledby={"word-" + index}
-                      data-parent="#foundWords">
-                      <div className="card-body">
-                        <p>
-                          Часть речи: {word.get("part_of_speech")}
-                        </p>
-                        <p>
-                          Род: {word.get("gender")}
-                        </p>
-                        <p>
-                          Альтернативные написания: {word.get("spellings")}
-                        </p>
-                        <p>
-                          Значения: {word.get("meanings").map(
-                          meaning => (
-                            <p>
-                              { meaning.meaning} ({ meaning.examples})
-                            </p>
-                          )
-                        )}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                word => (
+                  <button key={ "open-word-modal-" + word.id } type="button"
+                    className="list-group-item list-group-item-action"
+                    data-toggle="modal" data-target={ "#word-modal-" + word.id }>
+                      { word.get("word") }
+                  </button>
                 )
               )
             }
@@ -327,16 +370,11 @@ class App extends React.Component {
             <div className="form-group">
               <label htmlFor="part_of_speech">Часть речи</label>
               <select className="form-control" id="part_of_speech" onChange={this.updateInput}>
-                <option value="noun">существительное</option>
-                <option value="verb">глагол</option>
-                <option value="compound_verb">составной глагол</option>
-                <option value="adjective">прилагательное</option>
-                <option value="adverb">наречие</option>
-                <option value="pronoun">местоимение</option>
-                <option value="conjunction">союз</option>
-                <option value="interjection">междометие</option>
-                <option value="postposition">послелог</option>
-                <option value="particle">частица</option>
+                {
+                  Object.entries(this.getPartsOfSpeech()).map(
+                    ([key, value]) => <option value={ key }>{ value }</option>
+                  )
+                }
               </select>
             </div>
             <hr />
@@ -432,6 +470,36 @@ class App extends React.Component {
   render() {
     return (
       <React.Fragment>
+        {
+          this.state.foundWords.map(
+            word => (
+              <div className="modal fade" id={ "word-modal-" + word.id }
+                  tabindex="-1" aria-labelledby={ "word-modal-" + word.id + "-label"}
+                  aria-hidden="true">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id={ "word-modal-" + word.id + "-label"}>
+                        { word.get("word") }
+                      </h5>
+                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body">
+                      { this.renderWord(word) }
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                        Закрыть
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          )
+        }
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
