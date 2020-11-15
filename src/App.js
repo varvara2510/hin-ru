@@ -321,6 +321,21 @@ class App extends React.Component {
             <td>{word.get("spellings")}</td>
           </tr>
           <tr>
+            <th>Управление</th>
+            <td>{word.get("control_rus")}</td>
+            <td>{word.get("control_hin")}</td>
+          </tr>
+          <tr>
+            <th>Устойчивые словосочетания</th>
+            <td>{word.get("stable_phrases_rus")}</td>
+            <td>{word.get("stable_phrases_hin")}</td>
+          </tr>
+          <tr>
+            <th>Примеры</th>
+            <td>{word.get("examples_rus")}</td>
+            <td>{word.get("examples_hin")}</td>
+          </tr>
+          <tr>
             <th>Значения</th>
             <td>
               <table className="table">
