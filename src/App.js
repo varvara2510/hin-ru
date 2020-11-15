@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Database from './db';
+import firebase from 'firebase';
 
 class App extends React.Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class App extends React.Component {
           meaning: "",
           examples: ""
         }
-      ]
+      ],
+      user: undefined
     }
   )
 
@@ -32,6 +34,13 @@ class App extends React.Component {
       addingWord: this.state.addingWord
     }
   );
+
+  signIn = () => {
+    let authProvider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(authProvider).then(
+      result => this.setState({user: result.user})
+    );
+  }
 
   setUploadingWord = () => this.setState({upload_status: "pending"});
   setSomethingWentWrong = () => this.setState({upload_status: "error"});
@@ -419,6 +428,17 @@ class App extends React.Component {
               </button>
             </li>
           </ul>
+          {
+            this.state.user ? (
+              <button className="btn btn-primary" onClick={ evt => this.setState({user: undefined}) }>
+                Выйти ({ this.state.user.displayName })
+              </button>
+            ) : (
+              <button className="btn btn-primary" onClick={ this.signIn }>
+                  Войти через Google
+              </button>
+            )
+          }
         </nav>
         <div className="container">
           { this.state.addingWord ? wordAddForm : wordSearchForm }
