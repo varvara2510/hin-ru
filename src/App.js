@@ -387,7 +387,7 @@ class App extends React.Component {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#" onClick={
+              <button className="btn nav-link" href="#" onClick={
                 () => this.setState(
                   {
                     addingWord: false
@@ -395,10 +395,10 @@ class App extends React.Component {
                 )
               }>
                 Главная
-              </a>
+              </button>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#" onClick={
+              <button className="btn nav-link" href="#" onClick={
                 () => this.setState(
                   {
                     addingWord: true
@@ -406,17 +406,17 @@ class App extends React.Component {
                 )
               }>
                 Предложить свое слово
-              </a>
+              </button>
             </li>
             <li className="nav-item">
-              <a className="nav-link disabled" href="#">
+              <button className="btn nav-link disabled" href="#">
                 Контакты
-              </a>
+              </button>
             </li>
             <li className="nav-item">
-              <a className="nav-link disabled" href="#">
+              <button className="btn nav-link disabled" href="#">
                 О нас
-              </a>
+              </button>
             </li>
           </ul>
         </nav>
