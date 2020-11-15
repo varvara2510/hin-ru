@@ -24,7 +24,7 @@ class App extends React.Component {
 
   getCleanState = () => (
     {
-      addingWord: false,
+      currentRoute: "main-page",
       upload_status: "not_started",
       foundWords: [],
       word: "",
@@ -64,6 +64,8 @@ class App extends React.Component {
       }
     )
   }
+
+  routeTo = route => this.setState({currentRoute: route})
 
   signOut = () => {
     firebase.auth().signOut();
@@ -235,8 +237,21 @@ class App extends React.Component {
     return propertiesByPartOfSpeech[partOfSpeech];
   }
 
-  render() {
-    let wordSearchForm = (
+  getPage = () => {
+    switch (this.state.currentRoute) {
+      case "main-page":
+        return this.renderMainPage();
+      case "add-word":
+        return this.renderWordAddForm();
+      case "admin-panel":
+        return "ADMIN PANEL UNDER CONSTRUCTION";
+      default:
+        return this.renderMainPage();
+    }
+  }
+
+  renderMainPage = () => {
+    return (
       <div className="row my-4">
         <div className="col-12">
           <div className="input-group mb-3">
@@ -252,36 +267,36 @@ class App extends React.Component {
             {
               this.state.foundWords.map(
                 (word, index) => (
-                  <div className="card" key={ "search-result-" + index }>
-                    <div className="card-header" id={ "word-" + index }>
+                  <div className="card" key={"search-result-" + index}>
+                    <div className="card-header" id={"word-" + index}>
                       <h2 className="mb-0">
                         <button className="btn btn-link btn-block text-left" type="button"
-                          data-toggle="collapse" data-target={ "#collapse-word-" + index } aria-expanded="true"
-                          aria-controls={ "collapse-word-" + index }>
-                          { word.get("word") }
+                          data-toggle="collapse" data-target={"#collapse-word-" + index} aria-expanded="true"
+                          aria-controls={"collapse-word-" + index}>
+                          {word.get("word")}
                         </button>
                       </h2>
                     </div>
-                    <div id={ "collapse-word-" + index } className="collapse" aria-labelledby={ "word-" + index }
+                    <div id={"collapse-word-" + index} className="collapse" aria-labelledby={"word-" + index}
                       data-parent="#foundWords">
                       <div className="card-body">
                         <p>
-                          Часть речи: { word.get("part_of_speech") }
+                          Часть речи: {word.get("part_of_speech")}
                         </p>
                         <p>
-                          Род: { word.get("gender") }
+                          Род: {word.get("gender")}
                         </p>
                         <p>
-                          Альтернативные написания: { word.get("spellings") }
+                          Альтернативные написания: {word.get("spellings")}
                         </p>
                         <p>
-                          Значения: { word.get("meanings").map(
-                            meaning => (
-                              <p>
-                                { meaning.meaning } ({ meaning.examples })
-                              </p>
-                            )
-                          ) }
+                          Значения: {word.get("meanings").map(
+                          meaning => (
+                            <p>
+                              { meaning.meaning} ({ meaning.examples})
+                            </p>
+                          )
+                        )}
                         </p>
                       </div>
                     </div>
@@ -292,16 +307,18 @@ class App extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
+  }
 
-    let wordAddForm = (
+  renderWordAddForm = () => {
+    return (
       <div className="row my-4">
         <div className="col-12">
           <form onSubmit={this.addWord}>
             <div className="form-group">
               <label htmlFor="word">Слово</label>
               <input type="text" className="form-control" id="word" placeholder="हिंदी"
-                required={ true } onChange={this.updateInput}/>
+                required={true} onChange={this.updateInput} />
             </div>
             <div className="form-group">
               <label htmlFor="spellings">Альтернативные написания</label>
@@ -328,8 +345,8 @@ class App extends React.Component {
               this.getPropertiesForPartOfSpeech(this.state.part_of_speech).map(
                 prop => (
                   <div className="form-group" key={"prop-" + prop.name}>
-                    <label htmlFor={ prop.name }>
-                      { prop.readableName }
+                    <label htmlFor={prop.name}>
+                      {prop.readableName}
                     </label>
                     <br />
                     <div className="form-check form-check-inline">
@@ -338,16 +355,16 @@ class App extends React.Component {
                           value => {
                             let valueId = "prop-" + prop.name + "-value-" + value.name;
                             return (
-                              <React.Fragment key={ valueId }>
+                              <React.Fragment key={valueId}>
                                 <input
                                   className="form-check-input"
                                   type="checkbox"
-                                  id={ valueId }
-                                  value={ value.name }
+                                  id={valueId}
+                                  value={value.name}
                                   onChange={
                                     event => this.updateProperty(prop.name, value.name, event.target.checked)
-                                  }/>
-                                <label className="form-check-label pr-2" htmlFor={ valueId }>{ value.readableName }</label>
+                                  } />
+                                <label className="form-check-label pr-2" htmlFor={valueId}>{value.readableName}</label>
                               </React.Fragment>
                             )
                           }
@@ -365,14 +382,14 @@ class App extends React.Component {
                 this.state.meanings.map(
                   (value, index) => {
                     return (
-                      <div className="input-group" key={ "meaning-input-group-" + index }>
-                        <textarea className="form-control" id={ "meanings-" + index }
-                          placeholder="хинди (язык)" rows="3" required={ true }
-                          value={ value.meaning } onChange={event => this.updateMeaning(index, event.target.value)}>
+                      <div className="input-group" key={"meaning-input-group-" + index}>
+                        <textarea className="form-control" id={"meanings-" + index}
+                          placeholder="хинди (язык)" rows="3" required={true}
+                          value={value.meaning} onChange={event => this.updateMeaning(index, event.target.value)}>
                         </textarea>
-                        <textarea className="form-control" id={ "meanings_example" + index }
+                        <textarea className="form-control" id={"meanings_example" + index}
                           placeholder="हम हिंदी बोलते हैं। Мы говорим на хинди." rows="3"
-                          value={ value.examples } onChange={event => this.updateMeaningExamples(index, event.target.value)}>
+                          value={value.examples} onChange={event => this.updateMeaningExamples(index, event.target.value)}>
                         </textarea>
                         <div className="input-group-append">
                           {
@@ -394,10 +411,10 @@ class App extends React.Component {
               <button className={
                 "btn btn-outline-primary"
                 + (
-                    (this.state.upload_status !== "not_started")
-                      ? " disabled"
-                      : ""
-                  )
+                  (this.state.upload_status !== "not_started")
+                    ? " disabled"
+                    : ""
+                )
               } type="submit">
                 {
                   this.state.upload_status === "error"
@@ -410,40 +427,39 @@ class App extends React.Component {
         </div>
       </div>
     );
+  }
 
+  render() {
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <button className="btn nav-link" href="#" onClick={
-                () => this.setState(
-                  {
-                    addingWord: false
-                  }
-                )
-              }>
+              <button className="btn nav-link" onClick={ () => this.routeTo("main-page") }>
                 Главная
               </button>
             </li>
             <li className="nav-item">
-              <button className="btn nav-link" href="#" onClick={
-                () => this.setState(
-                  {
-                    addingWord: true
-                  }
-                )
-              }>
+              <button className="btn nav-link" onClick={() => this.routeTo("add-word") }>
                 Предложить свое слово
               </button>
             </li>
+            {
+              this.state.userIsAdmin ? (
+                <li className="nav-item">
+                  <button className="btn nav-link" onClick={ () => this.routeTo("admin-panel") }>
+                    Панель админа
+                  </button>
+                </li>
+              ) : ""
+            }
             <li className="nav-item">
-              <button className="btn nav-link disabled" href="#">
+              <button className="btn nav-link disabled">
                 Контакты
               </button>
             </li>
             <li className="nav-item">
-              <button className="btn nav-link disabled" href="#">
+              <button className="btn nav-link disabled">
                 О нас
               </button>
             </li>
@@ -462,7 +478,7 @@ class App extends React.Component {
           }
         </nav>
         <div className="container">
-          { this.state.addingWord ? wordAddForm : wordSearchForm }
+          { this.getPage() }
         </div>
       </React.Fragment>
     );
