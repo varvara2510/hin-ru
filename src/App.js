@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Database from './db';
 import firebase from 'firebase';
+import DevanagariTextInput from './devanagari';
 
 class App extends React.Component {
   constructor(props) {
@@ -360,19 +361,24 @@ class App extends React.Component {
           <form onSubmit={this.addWord}>
             <div className="form-group">
               <label htmlFor="word">Слово</label>
-              <input type="text" className="form-control" id="word" placeholder="हिंदी"
-                required={true} onChange={this.updateInput} />
+              <DevanagariTextInput id="word" placeholder="हिंदी"
+                required={true} setValue={
+                  value => this.updateInput({target: {id: "word", value: value}}) 
+                } />
             </div>
             <div className="form-group">
               <label htmlFor="spellings">Альтернативные написания</label>
-              <input type="text" className="form-control" id="spellings" placeholder="हिंदी, हिन्दी" onChange={this.updateInput} />
+              <DevanagariTextInput id="spellings" placeholder="हिंदी, हिन्दी"
+                setValue={
+                  value => this.updateInput({ target: { id: "spellings", value: value } })
+                } />
             </div>
             <div className="form-group">
               <label htmlFor="part_of_speech">Часть речи</label>
               <select className="form-control" id="part_of_speech" onChange={this.updateInput}>
                 {
                   Object.entries(this.getPartsOfSpeech()).map(
-                    ([key, value]) => <option value={ key }>{ value }</option>
+                    ([key, value]) => <option key={ key } value={ key }>{ value }</option>
                   )
                 }
               </select>
