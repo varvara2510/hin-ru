@@ -2,12 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<i class="fab fa-cc-visa"></i>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Hindi-Russian online dictionary"/>
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -15,7 +12,10 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
       integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.index.css">
     <title>HIN-RU</title>
+
+
     <style>
       body {
    margin: 0;
@@ -25,119 +25,15 @@
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
  }
-      .topnav {
-   background-color: #DEB887;
-   overflow: hidden;
- }
- 
- .topnav a {
-   float: left;
-   color: #f2f2f2;
-   text-align: center;
-   padding: 14px 16px;
-   text-decoration: none;
-   font-size: 17px;
- }
- 
- .topnav a:hover {
-   background-color: #ddd;
-   color: black;
- }
- 
- .topnav a.active {
-   background-color: #4CAF50;
-   color: white;
- }
-
- a.button1 {
-  display: inline-block;
-  text-decoration: none;
-  padding: 1em;
-  outline: none;
-  border-radius: 1px;
-}
-a.button1:hover {
-  background-image:
-   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
-   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
-}
-a.button1:active {
-  background-image:
-   radial-gradient(45% 45% at 50% 100%, rgba(255,255,255,.9), rgba(255,255,255,0)),
-   linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.3));
-  box-shadow:
-   inset rgba(162,95,42,.4) 0 0 0 1px,
-   inset rgba(255,255,255,.9) 0 0 1px 3px;
-}
-
-a.button2 {
-  display: inline-block;
-  text-decoration: none;
-  padding: 1em;
-  outline: none;
-  border-radius: 1px;
-}
-a.button2:hover {
-  background-image:
-   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
-   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
-}
-a.button2:active {
-  background-image:
-   radial-gradient(45% 45% at 50% 100%, rgba(255,255,255,.9), rgba(255,255,255,0)),
-   linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.3));
-  box-shadow:
-   inset rgba(162,95,42,.4) 0 0 0 1px,
-   inset rgba(255,255,255,.9) 0 0 1px 3px;
-}
-a.button3 {
-  display: inline-block;
-  text-decoration: none;
-  padding: 1em;
-  outline: none;
-  border-radius: 1px;
-}
-a.button3:hover {
-  background-image:
-   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
-   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
-}
-a.button3:active {
-  background-image:
-   radial-gradient(45% 45% at 50% 100%, rgba(255,255,255,.9), rgba(255,255,255,0)),
-   linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.3));
-  box-shadow:
-   inset rgba(162,95,42,.4) 0 0 0 1px,
-   inset rgba(255,255,255,.9) 0 0 1px 3px;
-}
-a.button4 {
-  display: inline-block;
-  text-decoration: none;
-  padding: 1em;
-  outline: none;
-  border-radius: 1px;
-}
-a.button4:hover {
-  background-image:
-   radial-gradient(1px 45% at 0% 50%, rgba(0,0,0,.6), transparent),
-   radial-gradient(1px 45% at 100% 50%, rgba(0,0,0,.6), transparent); 
-}
-a.button4:active {
-  background-image:
-   radial-gradient(45% 45% at 50% 100%, rgba(255,255,255,.9), rgba(255,255,255,0)),
-   linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.3));
-  box-shadow:
-   inset rgba(162,95,42,.4) 0 0 0 1px,
-   inset rgba(255,255,255,.9) 0 0 1px 3px;
-}
  </style>
   </head>
   <body>
-    <div class="topnav">
-      <a class="button1" href="http://localhost:3000/#contact">Главная</a>
-      <a class="button2">Предложить свое слово</a>
-      <a class="button3">Контакты</a>
-      <a class="button4">О нас</a>
+    <div class="container">
+      <a href="http://localhost:3000/" button class="button type1">Главная</a>
+      <button class="button type2">Контакты</button>
+      <button class="button type3">О нас</button>
+    
+    <p class="copyright"><a href="https://vk.com/hindi_2020_2021">мы ВКонтакте</a> </p>
     </div>
     <noscript>
       You need to enable JavaScript to run this app.
