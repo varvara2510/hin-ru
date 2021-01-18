@@ -105,8 +105,6 @@ class App extends React.Component {
               this.routeTo('view-word');
             }
           } />;
-      case "admin-panel":
-        return "ADMIN PANEL UNDER CONSTRUCTION";
       default:
         return <MainPage foundWords={this.state.foundWords} />;
     }
@@ -127,15 +125,6 @@ class App extends React.Component {
                 Предложить свое слово
               </button>
             </li>
-            {
-              this.state.userIsAdmin ? (
-                <li className="nav-item">
-                  <button className="btn nav-link" onClick={ () => this.routeTo("admin-panel") }>
-                    Панель админа
-                  </button>
-                </li>
-              ) : ""
-            }
             <li className="nav-item">
               <button className="btn nav-link disabled">
                 Контакты
