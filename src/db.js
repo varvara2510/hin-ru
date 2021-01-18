@@ -23,12 +23,30 @@ class Database {
 
     saveWord(word) {
         const db = firebase.firestore();
-        db.collection("articles").add(word);  
+        return db.collection("articles").add(word);
     }
 
     searchWords(lookup) {
         const db = firebase.firestore();
         return db.collection('articles').orderBy('word').startAt(lookup).endAt(lookup + '\uf8ff');
+    }
+
+    fetchUserAdmin(user, setAdminCallback) {
+        const db = firebase.firestore();
+        db.collection("users").doc(user.email).get().then(function (doc) {
+            if (doc.exists) {
+                setAdminCallback(doc.data().admin);
+            } else {
+                db.collection("users").doc(user.email).set(
+                    {
+                        admin: false,
+                        moderator: false
+                    }
+                ).then(
+                    result => setAdminCallback(false)
+                )
+            }
+        })
     }
 }
 

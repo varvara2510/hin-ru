@@ -82,4 +82,31 @@ body {
 	border-radius: 25px;
 	outline: none;
 	transition: 0.2s;
+	font-family: monaco;
+}
+
+.btn btn-outline-primary {
+	transform: translateY(-2px);
+	box-shadow: 0 3px 0 #CC3333;
+	transition: 0.2s;
+} 
+
+input {
+	color: red;
+}
+
+input::placeholder {
+	color: red;
+}
+
+label {
+	font-weight: bold;
+}
+
+.form-check-label {
+	font-weight: normal;
+}
+
+.navbar {
+	background-color: #deb887 !important;
 }
