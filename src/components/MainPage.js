@@ -28,7 +28,7 @@ class MainPage extends React.Component {
                             word => (
                             <button key={ "open-word-modal-" + word.id } type="button"
                                 className="list-group-item list-group-item-action"
-                                data-toggle="modal" data-target={ "#word-modal-" + word.id }>
+                                onClick={evt => this.props.viewWord(word)} >
                                 { word.get("word") }
                             </button>
                             )
