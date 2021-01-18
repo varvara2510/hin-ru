@@ -5,7 +5,6 @@ body {
 	background: url('/background.png') no-repeat center center fixed;
 	background-size: cover;
 	background-attachment: fixed;
-	font-family: Avenir, sans-serif
 }
 
 .form-control {
@@ -14,14 +13,14 @@ body {
 }
 
 .cta {
-	position: relative;
-	top: 120%;
-	margin: auto;
-	padding: 19px 22px;
-	transition: all 0.2s ease;
-  }
-  
-  .cta:before {
+	margin: auto 0 auto 0;
+	width: 90%;
+	background: none;
+	border: none;
+	transition: all 0.5s ease;
+}
+
+.cta:before {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -29,21 +28,13 @@ body {
 	display: block;
 	border-radius: 28px;
 	background: rgba(255, 171, 157, 0.5);
-	width: 56px;
-	height: 56px;
-	transition: all 0.3s ease;
-  }
-  .cta span {
-	position: relative;
-	font-size: 16px;
-	line-height: 18px;
-	font-weight: 900;
-	letter-spacing: 0.25em;
-	text-transform: uppercase;
-	vertical-align: middle;
-  }
-  .cta svg {
-	position: relative;
+	width: 20%;
+	height: 100%;
+	transition: all 0.5s ease;
+	z-index: 0;
+}
+
+.cta svg {
 	top: 0;
 	margin-left: 10px;
 	fill: none;
@@ -53,17 +44,24 @@ body {
 	stroke-width: 2;
 	transform: translateX(-5px);
 	transition: all 0.3s ease;
-  }
-  .cta:hover:before {
+}
+
+.cta:hover:before {
 	width: 100%;
 	background: #ffab9d;
-  }
-  .cta:hover svg {
+}
+
+.cta:hover svg {
 	transform: translateX(0);
-  }
-  .cta:active {
+}
+
+.cta:active {
 	transform: scale(0.96);
-  }
+}
+
+.list-group-item {
+	margin: 0;
+}
 
 .btn.btn-primary {
 	display: inline-block;
@@ -76,13 +74,11 @@ body {
 	padding: 0 1rem;
 	cursor: pointer;
 	background: #990000;
-	color: #fff;
+	color: #ddd;
 	font-size: 18x;
-	letter-spacing: 3px;
 	border-radius: 25px;
 	outline: none;
 	transition: 0.2s;
-	font-family: monaco;
 }
 
 .btn btn-outline-primary {
@@ -108,5 +104,53 @@ label {
 }
 
 .navbar {
-	background-color: #deb887 !important;
+	background-color:transparent !important;
+}
+
+button.btn.nav-link {
+  position: relative;
+  padding: 1em 1.5em;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  font-size: 18px;
+  margin: 1em 0.8em;
+  color: #640016;
+  top: 0;
+  left: 5%;
+}
+
+button.btn.nav-link::after, button.btn.nav-link::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 20%;
+  height: 20%;
+  border: 2px solid;
+  transition: all 0.6s ease;
+  border-radius: 2px;
+}
+
+button.btn.nav-link::after {
+  bottom: 0;
+  right: 0;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-bottom-color: #640016;
+  border-right-color: #640016;
+}
+
+button.btn.nav-link::before {
+  top: 0;
+  left: 0;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+  border-top-color: #640016;
+  border-left-color: #640016;
+}
+
+button.btn.nav-link:hover:after, button.btn.nav-link:hover:before {
+  width: 100%;
+  height: 100%;
 }
