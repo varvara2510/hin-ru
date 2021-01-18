@@ -26,6 +26,11 @@ class Database {
         return db.collection("articles").add(word);
     }
 
+    updateWord(word_id, word) {
+        const db = firebase.firestore();
+        return db.collection("articles").doc(word_id).update(word);
+    }
+
     searchWords(lookup) {
         const db = firebase.firestore();
         return db.collection('articles').orderBy('word').startAt(lookup).endAt(lookup + '\uf8ff');

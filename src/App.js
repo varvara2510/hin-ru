@@ -88,8 +88,23 @@ class App extends React.Component {
           viewWord={this.viewWord}/>;
       case "add-word":
         return <WordAddWorm user={this.state.user} />;
+      case "edit-word":
+        return <WordAddWorm word_id={this.state.word_id} word={this.state.word} user={this.state.user} />;
       case "view-word":
-        return <WordPage word={this.state.word} />;
+        return <WordPage
+          word={this.state.word} 
+          isAdmin={this.state.userIsAdmin}
+          routeToEdit={
+            evt => {
+              this.setState({word_id: this.state.word.id});
+              this.routeTo('edit-word');
+            }
+          } routeToView={
+            evt => {
+              this.setState({ word_id: undefined });
+              this.routeTo('view-word');
+            }
+          } />;
       case "admin-panel":
         return "ADMIN PANEL UNDER CONSTRUCTION";
       default:

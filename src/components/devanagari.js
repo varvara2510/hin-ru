@@ -15,7 +15,7 @@ class DevanagariTextInput extends React.Component {
     constructor(props) {
         super(props);
         this.setValue = props.setValue;
-        this.state = { value: props.value };
+        this.state = { value: props.defaultValue };
     }
 
     render() {
