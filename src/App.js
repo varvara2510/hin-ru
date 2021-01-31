@@ -289,6 +289,10 @@ class App extends React.Component {
     return (
       <table className="table">
         <tbody>
+        <tr>
+            <th>Слово</th>
+            <td>{word.get("word")}</td>
+          </tr>
           <tr>
             <th>Часть речи</th>
             <td>
@@ -321,22 +325,7 @@ class App extends React.Component {
             <td>{word.get("spellings")}</td>
           </tr>
           <tr>
-            <th>Управление</th>
-            <td>{word.get("control_rus")}</td>
-            <td>{word.get("control_hin")}</td>
-          </tr>
-          <tr>
-            <th>Устойчивые словосочетания</th>
-            <td>{word.get("stable_phrases_rus")}</td>
-            <td>{word.get("stable_phrases_hin")}</td>
-          </tr>
-          <tr>
-            <th>Примеры</th>
-            <td>{word.get("examples_rus")}</td>
-            <td>{word.get("examples_hin")}</td>
-          </tr>
-          <tr>
-            <th>Значения</th>
+          <th>Значения</th>
             <td>
               <table className="table">
                 {
@@ -351,6 +340,21 @@ class App extends React.Component {
                 }
               </table>
             </td>
+            </tr>
+            <tr>
+            <th>Управление</th>
+            <td>{word.get("control_rus")}</td>
+            <td>{word.get("control_hin")}</td>
+          </tr>
+          <tr>
+            <th>Устойчивые словосочетания</th>
+            <td>{word.get("stable_phrases_rus")}</td>
+            <td>{word.get("stable_phrases_hin")}</td>
+          </tr>
+          <tr>
+            <th>Примеры</th>
+            <td>{word.get("examples_hin")}</td>
+            <td>{word.get("examples_rus")}</td>
           </tr>
         </tbody>
       </table>
@@ -496,36 +500,36 @@ class App extends React.Component {
             <div className="form-group">
               <label htmlFor="control_rus">Управление</label>
               <div className="input-group">
+                <textarea className="form-control" id="control_hin"
+                  rows="3" placeholder="на хинди" onChange={ this.updateInput }>
+                </textarea>
                 <textarea className="form-control" id="control_rus"
                   rows="3" placeholder="на русском" required={true}
                   onChange={ this.updateInput }>
-                </textarea>
-                <textarea className="form-control" id="control_hin"
-                  rows="3" placeholder="на хинди" onChange={ this.updateInput }>
                 </textarea>
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="stable_phrases_rus">Устойчивые словосочетания</label>
               <div className="input-group">
+                <textarea className="form-control" id="stable_phrases_hin"
+                  rows="3" placeholder="на хинди" onChange={this.updateInput}>
+                </textarea>
                 <textarea className="form-control" id="stable_phrases_rus"
                   rows="3" placeholder="на русском" required={true}
                   onChange={this.updateInput}>
-                </textarea>
-                <textarea className="form-control" id="stable_phrases_hin"
-                  rows="3" placeholder="на хинди" onChange={this.updateInput}>
                 </textarea>
               </div>
             </div>
             <div className="form-group">
               <label htmlFor="examples_rus">Примеры</label>
               <div className="input-group">
-                <textarea className="form-control" id="examples_rus"
-                  rows="3" placeholder="на русском" required={true}
-                  onChange={this.updateInput}>
+                <textarea className="form-control" id="control_hin"
+                  rows="3" placeholder="на хинди" onChange={ this.updateInput }>
                 </textarea>
-                <textarea className="form-control" id="examples_hin"
-                  rows="3" placeholder="на хинди" onChange={this.updateInput}>
+                <textarea className="form-control" id="control_rus"
+                  rows="3" placeholder="на русском" required={true}
+                  onChange={ this.updateInput }>
                 </textarea>
               </div>
             </div>
