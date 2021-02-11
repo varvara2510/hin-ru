@@ -32,6 +32,9 @@ class WordAddWorm extends React.Component {
             properties: this.props.word
                 ? this.props.word.get("properties")
                 : {},
+            taken_from: this.props.word
+                ? this.props.word.get("taken_from")
+                : "ниоткуда",
             meanings: this.props.word
                 ? this.props.word.get("meanings")
                 : [
@@ -80,6 +83,7 @@ class WordAddWorm extends React.Component {
                 part_of_speech: this.state.part_of_speech,
                 meanings: this.state.meanings,
                 properties: this.state.properties ? this.state.properties : {},
+                taken_from: this.state.taken_from,
                 control: {
                     rus: this.state.control_rus,
                     hin: this.state.control_hin
@@ -111,6 +115,7 @@ class WordAddWorm extends React.Component {
             part_of_speech: this.state.part_of_speech,
             meanings: this.state.meanings,
             properties: this.state.properties ? this.state.properties : {},
+            taken_from: this.state.taken_from,
             control: {
                 rus: this.state.control_rus,
                 hin: this.state.control_hin
@@ -346,6 +351,19 @@ class WordAddWorm extends React.Component {
                                     defaultValue={this.state.examples_rus}>
                                 </textarea>
                             </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="taken_from">Откуда заимствовано</label>
+                            <select className="form-control" id="taken_from"
+                                    onChange={this.updateInput}
+                                    value={this.state.taken_from}>
+                                <option value="ниоткуда">ниоткуда</option>
+                                <option value="санскрит">санскрит</option>
+                                <option value="персидский">персидский</option>
+                                <option value="арабский">арабский</option>
+                                <option value="английский">английский</option>
+                                <option value="португальский">португальский</option>
+                            </select>
                         </div>
                         <div className="col-12 my-3 text-center">
                             <button className={

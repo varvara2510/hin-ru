@@ -116,6 +116,10 @@ class WordPage extends React.Component {
                                     : ""
                             }</td>
                         </tr>
+                        <tr>
+                            <th>Заимствовано из</th>
+                            <td>{word.get("taken_from")}</td>
+                        </tr>
                     </tbody>
                 </table>
             </React.Fragment>
