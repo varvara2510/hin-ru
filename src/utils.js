@@ -9,7 +9,8 @@ function getPartsOfSpeech () {
         conjunction: "союз",
         interjection: "междометие",
         postposition: "послелог",
-        particle: "частица"
+        particle: "частица",
+        numeral: "числительное",
     }
 }
 
@@ -90,6 +91,17 @@ function getPropertiesForPartOfSpeech(partOfSpeech) {
         interjection: [],
         postposition: [],
         particle: [],
+        numeral: [
+            {
+                name: "type",
+                readableName: "Тип",
+                values: [
+                    { name: "quantitative", readableName: "количественное" },
+                    { name: "ordinal", readableName: "порядковое" },
+                    { name: "collective", readableName: "собирательное" },
+                ]
+            }
+        ]
     }
     return propertiesByPartOfSpeech[partOfSpeech];
 }
