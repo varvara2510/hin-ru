@@ -18,6 +18,7 @@ class WordPage extends React.Component {
                           </button>
                         : ""
                 }
+                <h1>{word.get('word')}</h1>
                 <table className="table">
                     <tbody>
                         <tr>
@@ -61,12 +62,12 @@ class WordPage extends React.Component {
                             <th>Управление</th>
                             <td>{
                                 word.get("control")
-                                    ? word.get("control")["rus"]
+                                    ? word.get("control")["hin"]
                                     : ""
                             }</td>
                             <td>{
                                 word.get("control")
-                                    ? word.get("control")["hin"]
+                                    ? word.get("control")["rus"]
                                     : ""
                             }</td>
                         </tr>
@@ -74,12 +75,12 @@ class WordPage extends React.Component {
                             <th>Устойчивые словосочетания</th>
                             <td>{
                                 word.get("stable_phrases")
-                                    ? word.get("stable_phrases")["rus"]
+                                    ? word.get("stable_phrases")["hin"]
                                     : ""
                             }</td>
                             <td>{
                                 word.get("stable_phrases")
-                                    ? word.get("stable_phrases")["hin"]
+                                    ? word.get("stable_phrases")["rus"]
                                     : ""
                             }</td>
                         </tr>
@@ -87,12 +88,12 @@ class WordPage extends React.Component {
                             <th>Примеры</th>
                             <td>{
                                 word.get("examples")
-                                    ? word.get("examples")["rus"]
+                                    ? word.get("examples")["hin"]
                                     : ""
                             }</td>
                             <td>{
                                 word.get("examples")
-                                    ? word.get("examples")["hin"]
+                                    ? word.get("examples")["rus"]
                                     : ""
                             }</td>
                         </tr>

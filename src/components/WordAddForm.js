@@ -308,42 +308,42 @@ class WordAddWorm extends React.Component {
                         <div className="form-group">
                             <label htmlFor="control_rus">Управление</label>
                             <div className="input-group">
+                                <textarea className="form-control" id="control_hin"
+                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
+                                    defaultValue={this.state.control_hin}>
+                                </textarea>
                                 <textarea className="form-control" id="control_rus"
                                     rows="3" placeholder="на русском" required={true}
                                     onChange={this.updateInput}
                                     defaultValue={this.state.control_rus}>
-                                </textarea>
-                                <textarea className="form-control" id="control_hin"
-                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
-                                    defaultValue={this.state.control_hin}>
                                 </textarea>
                             </div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="stable_phrases_rus">Устойчивые словосочетания</label>
                             <div className="input-group">
+                                <textarea className="form-control" id="stable_phrases_hin"
+                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
+                                    defaultValue={this.state.stable_phrases_hin}>
+                                </textarea>
                                 <textarea className="form-control" id="stable_phrases_rus"
                                     rows="3" placeholder="на русском" required={true}
                                     onChange={this.updateInput}
                                     defaultValue={this.state.stable_phrases_rus}>
-                                </textarea>
-                                <textarea className="form-control" id="stable_phrases_hin"
-                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
-                                    defaultValue={this.state.stable_phrases_hin}>
                                 </textarea>
                             </div>
                         </div>
                         <div className="form-group">
                             <label htmlFor="examples_rus">Примеры</label>
                             <div className="input-group">
+                                <textarea className="form-control" id="examples_hin"
+                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
+                                    defaultValue={this.state.examples_hin}>
+                                </textarea>
                                 <textarea className="form-control" id="examples_rus"
                                     rows="3" placeholder="на русском" required={true}
                                     onChange={this.updateInput}
                                     defaultValue={this.state.examples_rus}>
-                                </textarea>
-                                <textarea className="form-control" id="examples_hin"
-                                    rows="3" placeholder="на хинди" onChange={this.updateInput}
-                                    defaultValue={this.state.examples_hin}>
                                 </textarea>
                             </div>
                         </div>
