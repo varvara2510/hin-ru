@@ -59,6 +59,25 @@ class WordPage extends React.Component {
                             <td>{word.get("spellings")}</td>
                         </tr>
                         <tr>
+                            <th>Значения</th>
+                            <td>
+                                <table className="table">
+                                    <tbody>
+                                        {
+                                            word.get("meanings").map(
+                                                meaning => (
+                                                    <tr key={meaning.meaning}>
+                                                        <td>{meaning.meaning}</td>
+                                                        <td>{meaning.examples}</td>
+                                                    </tr>
+                                                )
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Управление</th>
                             <td>{
                                 word.get("control")
@@ -96,25 +115,6 @@ class WordPage extends React.Component {
                                     ? word.get("examples")["rus"]
                                     : ""
                             }</td>
-                        </tr>
-                        <tr>
-                            <th>Значения</th>
-                            <td>
-                                <table className="table">
-                                    <tbody>
-                                        {
-                                            word.get("meanings").map(
-                                                meaning => (
-                                                    <tr key={meaning.meaning}>
-                                                        <td>{meaning.meaning}</td>
-                                                        <td>{meaning.examples}</td>
-                                                    </tr>
-                                                )
-                                            )
-                                        }
-                                    </tbody>
-                                </table>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
