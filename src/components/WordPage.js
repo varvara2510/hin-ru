@@ -26,6 +26,12 @@ class WordPage extends React.Component {
                                 {getPartsOfSpeech()[word.get("part_of_speech")]}
                             </td>
                         </tr>
+                        <tr>
+                            <th>Транслитерация</th>
+                            <td>
+                                {word.get("transliteration")}
+                            </td>
+                        </tr>
                         {
                             getPropertiesForPartOfSpeech(word.get("part_of_speech")).map(
                                 property => (
