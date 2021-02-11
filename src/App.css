@@ -109,13 +109,13 @@ label {
 
 button.btn.nav-link {
   position: relative;
-  padding: 1em 1.5em;
+  padding: 3px 5px;
   border: none;
   background-color: transparent;
   cursor: pointer;
   outline: none;
   font-size: 18px;
-  margin: 1em 0.8em;
+  margin: 5px 4px;
   color: #640016;
   top: 0;
   left: 5%;
