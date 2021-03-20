@@ -5,6 +5,7 @@ import './App.css';
 import MainPage from './components/MainPage';
 import WordAddWorm from './components/WordAddForm';
 import WordPage from './components/WordPage';
+import AboutUsPage from './components/AboutUsPage';
 
 class App extends React.Component {
   constructor(props) {
@@ -89,6 +90,8 @@ class App extends React.Component {
           foundWords={this.state.foundWords}
           searchWord={this.searchWord} 
           viewWord={this.viewWord}/>;
+      case "about-us":
+        return <AboutUsPage />
       case "add-word":
         return <WordAddWorm user={this.state.user} />;
       case "edit-word":
@@ -129,12 +132,7 @@ class App extends React.Component {
               </button>
             </li>
             <li className="nav-item">
-              <button className="btn nav-link disabled">
-                Контакты
-              </button>
-            </li>
-            <li className="nav-item">
-              <button className="btn nav-link disabled">
+              <button className="btn nav-link" onClick={() => this.routeTo("about-us") }>
                 О нас
               </button>
             </li>
