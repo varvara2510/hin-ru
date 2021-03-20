@@ -30,6 +30,14 @@ class MainPage extends React.Component {
                                 className="list-group-item list-group-item-action"
                                 onClick={evt => this.props.viewWord(word)} >
                                 { word.get("word") }
+                                &nbsp;
+                                &nbsp;
+                                &nbsp;
+                                <span className={
+                                    "badge " + (word.get("approved") ? "bg-success" : "text-white bg-secondary")
+                                }>
+                                    {word.get("approved") ? "одобрено" : "черновик"}
+                                </span>
                             </button>
                             )
                         )

@@ -65,7 +65,10 @@ class App extends React.Component {
   }
 
   searchWord = event => {
-    this.database.searchWords(event.target.value).get().then(
+    this.database.searchWords(
+      event.target.value,
+      this.state.userIsAdmin
+    ).get().then(
       snapshot => {
         this.setState({
           foundWords: snapshot.docs,

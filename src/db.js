@@ -31,9 +31,13 @@ class Database {
         return db.collection("articles").doc(word_id).update(word);
     }
 
-    searchWords(lookup) {
+    searchWords(lookup, isAdmin) {
         const db = firebase.firestore();
-        return db.collection('articles').orderBy('word').startAt(lookup).endAt(lookup + '\uf8ff');
+        let collection = db.collection('articles').orderBy('word');
+        if (!isAdmin) {
+            collection = collection.where("approved", "==", true)
+        }
+        return collection.startAt(lookup).endAt(lookup + '\uf8ff');
     }
 
     fetchUserAdmin(user, setAdminCallback) {

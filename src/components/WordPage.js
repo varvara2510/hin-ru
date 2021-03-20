@@ -3,8 +3,15 @@ import {
     getPartsOfSpeech,
     getPropertiesForPartOfSpeech
 } from '../utils';
+import Database from '../db';
 
 class WordPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.database = new Database();
+        this.state = {isWordApproved: props.word.get('approved')}
+    }
+
     render() {
         let word = this.props.word;
         return (
@@ -12,11 +19,42 @@ class WordPage extends React.Component {
                 {
                     this.props.isAdmin
                         ? <button
-                            className="btn btn-primary"
+                            className="btn btn-info"
                             onClick={ this.props.routeToEdit }>
                               Редактировать (осторожно, вы админ)
                           </button>
                         : ""
+                }
+                &nbsp;
+                {
+                    this.props.isAdmin
+                        ? (
+                            !this.state.isWordApproved
+                            ? <button
+                                className="btn btn-success"
+                                onClick={
+                                    () => this.database.updateWord(
+                                        word.id,
+                                        {approved: true}
+                                    ).then(
+                                        () => this.setState({isWordApproved: true})
+                                    )
+                                }>
+                                    Одобрить!
+                                </button>
+                            : <button
+                                className="btn btn-danger"
+                                onClick={
+                                    () => this.database.updateWord(
+                                        word.id,
+                                        {approved: false}
+                                    ).then(
+                                        () => this.setState({isWordApproved: false})
+                                    )
+                                }>
+                                Разодобрить :(
+                            </button>
+                        ) : ""
                 }
                 <h1>{word.get('word')}</h1>
                 <table className="table">
