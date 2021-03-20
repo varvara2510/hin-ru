@@ -37,7 +37,7 @@ class Database {
         if (!isAdmin) {
             collection = collection.where("approved", "==", true)
         }
-        return collection.startAt(lookup).endAt(lookup + '\uf8ff');
+        return collection.startAt(lookup).endAt(lookup + '\uf8ff').limit(15);
     }
 
     fetchUserAdmin(user, setAdminCallback) {

@@ -1,6 +1,16 @@
 import React from 'react';
 
 class MainPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {searchTerm: ''};
+    }
+
+    onSearchEnter = event => {
+        if (event.key === 'Enter') {
+            this.props.searchWord(this.state.searchTerm)
+        }
+    }
 
     render() {
         return (
@@ -17,7 +27,8 @@ class MainPage extends React.Component {
                         &nbsp;&nbsp;
                         <input type="text" className="form-control" placeholder="Найти слово..."
                         aria-label="Слово" aria-describedby="language-identifier"
-                        onChange={this.props.searchWord} />
+                        onChange={event => this.setState({searchTerm: event.target.value})}
+                        onKeyDown={this.onSearchEnter} />
                     </span></div>
                 </div>
                 </div>

@@ -65,9 +65,9 @@ class App extends React.Component {
     this.setState({ user: undefined, userIsAdmin: false });
   }
 
-  searchWord = event => {
+  searchWord = searchTerm => {
     this.database.searchWords(
-      event.target.value,
+      searchTerm,
       this.state.userIsAdmin
     ).get().then(
       snapshot => {
